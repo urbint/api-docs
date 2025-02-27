@@ -1,10 +1,12 @@
 openapi: 3.0.0
 info:
-  title: Ticket Reports API
-  description: API for fetching ticket reports
+  title: Damage Prevention Reporting Service
+  description: API's for fetching reports
   version: 1.0.0
+servers:
+  - url: https://<URL>/dp/reports/api/v1
 paths:
-  /report/tickets:
+  /tickets:
     get:
       summary: Retrieve ticket reports
       description: Fetch a list of ticket reports based on query parameters.
