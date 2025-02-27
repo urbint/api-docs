@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: Damage Prevention Reporting Service
+  description: API's for fetching reports
+  version: 1.0.0
+servers:
+  - url: https://<URL>/dp/reports/api/v1
+paths:
+  /tickets:
+    get:
+      summary: Retrieve ticket reports
+      description: Fetch a list of ticket reports based on query parameters.
+      security:
+        - api_key: []
+      parameters:
+        - name: api_key
+          in: header
+          description: API key for authentication
+          required: true
+          schema:
+            type: string
+        - name: startDatetime
+          in: query
+          description: Filter by ticket creation start time (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDatetime
+          in: query
+          description: Filter by ticket creation start time (ISO 8601 format)
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of records per page
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of ticket reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketReport'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: api_key
+  schemas:
+    TicketReport:
+      type: object
+      properties:
+        ticket:
+          type: string
+          example: "B329601636"
+        ticket_version:
+          type: object
+          properties:
+            version:
+              type: integer
+              example: 1
+            type:
+              type: string
+              enum: [STANDARD NEW TICKET, STANDARD UPDATE, EMERGENCY NEW TICKET, STANDARD NO RESPONSE]
+            description:
+              type: string
+              example: "Excavation work for pipeline maintenance"
+            excavation_work_type:
+              type: string
+              enum: [SAWCUTTING ASPHALT, RENEW POLE, EMERGENCY REPAIR OF BGE GAS EQUIPMENT, INST A FENCE]
+            excavation_state:
+              type: string
+              example: "California"
+            excavation_county:
+              type: string
+              example: "Los Angeles"
+            excavation_city:
+              type: string
+              example: "Los Angeles"
+            excavation_address:
+              type: string
+              example: "123 Main St"
+            damage_potential:
+              type: string
+              enum: [LOW, MEDIUM, HIGH]
+            impact_potential:
+              type: string
+              enum: [LOW, NO_ASSETS, MEDIUM]
+            work_start_date:
+              type: string
+              format: date
+              example: "2025-03-01"
+            ticket_reported_date:
+              type: string
+              format: date
+              example: "2025-02-15"
+            work_done_for:
+              type: string
+              enum: [BGE AND NPL, BGE, CITY OF BALTIMORE DPW]
+            response_due_date:
+              type: string
+              format: date
+              example: "2025-02-25"
+            scaled_impact_score:
+              type: number
+              format: decimal
+              example: 7.5
+            scaled_threat_score:
+              type: number
+              format: decimal
+              example: 6.8
+        contact:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "John Doe"
+            email:
+              type: string
+              example: "johndoe@example.com"
+            phone_number:
+              type: string
+              example: "+1-555-123-4567"
