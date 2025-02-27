@@ -1,12 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Damage Prevention Reporting Service
-  description: API's for fetching reports
+  title: Ticket Reports API
+  description: API for fetching ticket reports
   version: 1.0.0
-servers:
-  - url: https://<URL>/dp/reports/api/v1
 paths:
-  /tickets:
+  /report/tickets:
     get:
       summary: Retrieve ticket reports
       description: Fetch a list of ticket reports based on query parameters.
@@ -21,14 +19,14 @@ paths:
             type: string
         - name: startDatetime
           in: query
-          description: Filter by ticket creation start time (ISO 8601 format)
+          description: Refers to create_time attribute. Filter by ticket creation start time (ISO 8601 format)
           required: false
           schema:
             type: string
             format: date-time
         - name: endDatetime
           in: query
-          description: Filter by ticket creation start time (ISO 8601 format)
+          description: Refers to create_time attribute. Filter by ticket creation start time (ISO 8601 format)
           required: false
           schema:
             type: string
@@ -49,13 +47,76 @@ paths:
             default: 10
       responses:
         '200':
-          description: A list of ticket reports
+          description: A list of ticket reports with pagination metadata
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TicketReport'
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total_records:
+                        type: integer
+                        description: Total number of records available
+                        example: 2
+                      page:
+                        type: integer
+                        description: Current page number
+                        example: 1
+                      page_size:
+                        type: integer
+                        description: Number of records per page
+                        example: 2
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketReport'
+                    example:
+                      - ticket: "B329601636"
+                        ticket_version:
+                          version: 1
+                          type: "STANDARD NEW TICKET"
+                          description: "Excavation work for pipeline maintenance"
+                          excavation_work_type: "SAWCUTTING ASPHALT"
+                          excavation_state: "California"
+                          excavation_county: "Los Angeles"
+                          excavation_city: "Los Angeles"
+                          excavation_address: "123 Main St"
+                          damage_potential: "LOW"
+                          impact_potential: "MEDIUM"
+                          work_start_date: "2025-03-01"
+                          ticket_reported_date: "2025-02-15"
+                          work_done_for: "BGE AND NPL"
+                          response_due_date: "2025-02-25"
+                          scaled_impact_score: 7.5
+                          scaled_threat_score: 6.8
+                        contact:
+                          name: "John Doe"
+                          email: "johndoe@example.com"
+                          phone_number: "+1-555-123-4567"
+                      - ticket: "B329601637"
+                        ticket_version:
+                          version: 2
+                          type: "STANDARD UPDATE"
+                          description: "Additional excavation for electrical wiring"
+                          excavation_work_type: "RENEW POLE"
+                          excavation_state: "New York"
+                          excavation_county: "Kings"
+                          excavation_city: "Brooklyn"
+                          excavation_address: "456 Elm St"
+                          damage_potential: "MEDIUM"
+                          impact_potential: "NO_ASSETS"
+                          work_start_date: "2025-04-10"
+                          ticket_reported_date: "2025-03-20"
+                          work_done_for: "BGE"
+                          response_due_date: "2025-03-30"
+                          scaled_impact_score: 8.2
+                          scaled_threat_score: 7.1
+                        contact:
+                          name: "Jane Smith"
+                          email: "janesmith@example.com"
+                          phone_number: "+1-555-987-6543"
         '400':
           description: Invalid request parameters
         '500':
@@ -72,7 +133,7 @@ components:
       properties:
         ticket:
           type: string
-          example: "B329601636"
+          example: "TICKET-123456"
         ticket_version:
           type: object
           properties:
