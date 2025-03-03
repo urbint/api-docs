@@ -4,7 +4,7 @@ info:
   description: API's for fetching reports
   version: 1.0.0
 servers:
-  - url: https://<URL>/dp/reports/api/v1
+  - url: https://reporting.urbint.com/dp/api/v1
 paths:
   /tickets:
     get:
