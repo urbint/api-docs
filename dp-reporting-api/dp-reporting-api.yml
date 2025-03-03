@@ -8,8 +8,8 @@ servers:
 paths:
   /tickets:
     get:
-      summary: Retrieve ticket reports
-      description: Fetch a list of ticket reports based on query parameters.
+      summary: Retrieve Ticket data
+      description: Fetch a list of tickets based on their creation time.
       security:
         - api_key: []
       parameters:
@@ -93,6 +93,13 @@ paths:
                           response_due_date: "2025-02-25"
                           scaled_impact_score: 7.5
                           scaled_threat_score: 6.8
+                          has_boring: false
+                          excavator_name: "ADVANCED IRRIGATION"
+                          related_ticket_id: "B325401342"
+                          latitude: 34.0522
+                          longitude: -118.2437
+                          members_arr: ["CGV333", "COX649"]
+                          call_center: "VUPC"
                         contact:
                           name: "John Doe"
                           email: "johndoe@example.com"
@@ -115,6 +122,13 @@ paths:
                           response_due_date: "2025-03-30"
                           scaled_impact_score: 8.2
                           scaled_threat_score: 7.1
+                          has_boring: true
+                          excavator_name: "ADVANCED IRRIGATION"
+                          related_ticket_id: "B325401345"
+                          latitude: 36.720281
+                          longitude: -76.298158
+                          members_arr: ["DOM409", "EPC550", "EPC551"]
+                          call_center: "VUXC"
                         contact:
                           name: "Jane Smith"
                           email: "janesmith@example.com"
@@ -192,6 +206,31 @@ components:
               type: number
               format: decimal
               example: 6.8
+            has_boring:
+              type: boolean
+              example: true
+            excavator_name:
+              type: string
+              example: "XYZ Excavation Co."
+            related_ticket_id:
+              type: string
+              example: "TICKET-654321"
+            latitude:
+              type: number
+              format: float
+              example: 34.0522
+            longitude:
+              type: number
+              format: float
+              example: -118.2437
+            members_arr:
+              type: array
+              items:
+                type: string
+              example: ["DOM409", "EPC550", "EPC551"]
+            call_center:
+              type: string
+              example: "VUPSS"
         contact:
           type: object
           properties:
