@@ -19,6 +19,7 @@ paths:
           required: true
           schema:
             type: string
+            example: "39b290146bea6ce975c37cfc23"
         - name: startDatetime
           in: query
           description: Refers to create_time attribute. Filter by ticket creation start time (ISO 8601 format)
@@ -26,6 +27,7 @@ paths:
           schema:
             type: string
             format: date-time
+            example: "2025-03-01T14:30:00Z"
         - name: endDatetime
           in: query
           description: Refers to create_time attribute. Filter by ticket creation start time (ISO 8601 format)
@@ -33,6 +35,7 @@ paths:
           schema:
             type: string
             format: date-time
+            example: "2025-03-10T14:30:00Z"
         - name: page
           in: query
           description: Page number for pagination
@@ -77,58 +80,58 @@ paths:
                     example:
                       - ticket: "B329601636"
                         ticket_version:
-                          version: 1
-                          type: "STANDARD NEW TICKET"
-                          description: "Excavation work for pipeline maintenance"
-                          excavation_work_type: "SAWCUTTING ASPHALT"
-                          excavation_state: "California"
-                          excavation_county: "Los Angeles"
-                          excavation_city: "Los Angeles"
-                          excavation_address: "123 Main St"
-                          damage_potential: "LOW"
-                          impact_potential: "MEDIUM"
-                          work_start_date: "2025-03-01"
-                          ticket_reported_date: "2025-02-15"
-                          work_done_for: "BGE AND NPL"
-                          response_due_date: "2025-02-25"
-                          scaled_impact_score: 7.5
-                          scaled_threat_score: 6.8
-                          has_boring: false
-                          excavator_name: "ADVANCED IRRIGATION"
-                          related_ticket_id: "B325401342"
-                          latitude: 34.0522
-                          longitude: -118.2437
-                          members_arr: ["CGV333", "COX649"]
-                          call_center: "VUPC"
+                          - version: 1
+                            type: "STANDARD NEW TICKET"
+                            description: "Excavation work for pipeline maintenance"
+                            excavation_work_type: "SAWCUTTING ASPHALT"
+                            excavation_state: "California"
+                            excavation_county: "Los Angeles"
+                            excavation_city: "Los Angeles"
+                            excavation_address: "123 Main St"
+                            damage_potential: "LOW"
+                            impact_potential: "MEDIUM"
+                            work_start_date: "2025-03-01"
+                            ticket_reported_date: "2025-02-15"
+                            work_done_for: "BGE AND NPL"
+                            response_due_date: "2025-02-25"
+                            scaled_impact_score: 7.5
+                            scaled_threat_score: 6.8
+                            has_boring: false
+                            excavator_name: "ADVANCED IRRIGATION"
+                            related_ticket_id: "B325401342"
+                            latitude: 34.0522
+                            longitude: -118.2437
+                            members_code: "COX649"
+                            call_center: "VUPC"
                         contact:
                           name: "John Doe"
                           email: "johndoe@example.com"
                           phone_number: "+1-555-123-4567"
                       - ticket: "B329601637"
                         ticket_version:
-                          version: 2
-                          type: "STANDARD UPDATE"
-                          description: "Additional excavation for electrical wiring"
-                          excavation_work_type: "RENEW POLE"
-                          excavation_state: "New York"
-                          excavation_county: "Kings"
-                          excavation_city: "Brooklyn"
-                          excavation_address: "456 Elm St"
-                          damage_potential: "MEDIUM"
-                          impact_potential: "NO_ASSETS"
-                          work_start_date: "2025-04-10"
-                          ticket_reported_date: "2025-03-20"
-                          work_done_for: "BGE"
-                          response_due_date: "2025-03-30"
-                          scaled_impact_score: 8.2
-                          scaled_threat_score: 7.1
-                          has_boring: true
-                          excavator_name: "ADVANCED IRRIGATION"
-                          related_ticket_id: "B325401345"
-                          latitude: 36.720281
-                          longitude: -76.298158
-                          members_arr: ["DOM409", "EPC550", "EPC551"]
-                          call_center: "VUXC"
+                          - version: 2
+                            type: "STANDARD UPDATE"
+                            description: "Additional excavation for electrical wiring"
+                            excavation_work_type: "RENEW POLE"
+                            excavation_state: "New York"
+                            excavation_county: "Kings"
+                            excavation_city: "Brooklyn"
+                            excavation_address: "456 Elm St"
+                            damage_potential: "MEDIUM"
+                            impact_potential: "NO_ASSETS"
+                            work_start_date: "2025-04-10"
+                            ticket_reported_date: "2025-03-20"
+                            work_done_for: "BGE"
+                            response_due_date: "2025-03-30"
+                            scaled_impact_score: 8.2
+                            scaled_threat_score: 7.1
+                            has_boring: true
+                            excavator_name: "ADVANCED IRRIGATION"
+                            related_ticket_id: "B325401345"
+                            latitude: 36.720281
+                            longitude: -76.298158
+                            members_code: "DOM409"
+                            call_center: "VUXC"
                         contact:
                           name: "Jane Smith"
                           email: "janesmith@example.com"
@@ -223,11 +226,11 @@ components:
               type: number
               format: float
               example: -118.2437
-            members_arr:
-              type: array
+            members_code:
+              type: string
               items:
                 type: string
-              example: ["DOM409", "EPC550", "EPC551"]
+              example: "DOM409"
             call_center:
               type: string
               example: "VUPSS"
