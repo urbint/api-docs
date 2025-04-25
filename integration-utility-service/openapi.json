@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: Urbint Task API
+  version: 1.0.0
+servers:
+  - url: https://inbound.urbint.com/api/v1
+paths:
+  /task:
+    post:
+      summary: Receive task data with answers
+      operationId: receive_task_task_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - APIKeyHeader: []
+components:
+  schemas:
+    Attachment:
+      properties:
+        url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+        type:
+          type: string
+          title: Type
+          description: MIME type, e.g., image/jpeg, application/pdf
+      type: object
+      required:
+        - url
+        - type
+      title: Attachment
+    TaskRequest:
+      properties:
+        customer_id:
+          type: string
+          title: Customer Id
+        ticket_id:
+          type: string
+          title: Ticket Id
+        ticket_number:
+          type: string
+          title: Ticket Number
+        task_id:
+          type: string
+          title: Task Id
+        completed_by:
+          type: string
+          title: Completed By
+        questions:
+          items:
+            $ref: '#/components/schemas/QuestionAnswer'
+          type: array
+          title: Questions
+        attachments:
+          items:
+            $ref: '#/components/schemas/Attachment'
+          type: array
+          title: Attachments
+          default: []
+      type: object
+      required:
+        - customer_id
+        - ticket_id
+        - ticket_number
+        - completed_by
+        - questions
+      title: TaskRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    QuestionAnswer:
+      properties:
+        question:
+          type: string
+          title: Question
+        answer:
+          type: string
+          title: Answer
+      type: object
+      required:
+        - question
+        - answer
+      title: QuestionAnswer
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-API-Key
