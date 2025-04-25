@@ -3,7 +3,7 @@ info:
   title: Urbint Task API
   version: 1.0.0
 servers:
-  - url: https://inbound.urbint.com/api/v1
+  - url: https:inbound.urbint.com/api/v1
 paths:
   /task:
     post:
