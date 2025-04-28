@@ -1,34 +1,50 @@
 openapi: 3.0.0
 info:
-  title: Urbint Task API
+  title: Workforce Management System - Inbound Task API
+  description: |
+        This API allows you to send task data with answers to the Inbound Task API.
+        The API is designed to be used by the Workforce Management System.
   version: 1.0.0
 servers:
-  - url: https:inbound.urbint.com/api/v1
+  - url: https://inbound.urbint.com/api/v1
 paths:
   /task:
     post:
-      summary: Receive task data with answers
-      operationId: receive_task_task_post
+      summary: Submit completed task data
+      description: Allows a 3rd Party system to submit completed task responses, including answers and attachments, to DP.
+      operationId: submitTask
+      tags:
+        - Tasks
+      security:
+        - APIKeyHeader: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskRequest'
-        required: true
+              $ref: '#/components/schemas/TaskSubmission'
       responses:
-        '200':
-          description: Successful Response
+        '201':
+          description: Task data received and answers updated successfully.
           content:
             application/json:
-              schema: {}
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Task data received and answers updated
+        '401':
+          description: Unauthorized - Missing or invalid API key.
         '422':
-          description: Validation Error
+          description: Validation Error - Missing required fields.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-      security:
-        - APIKeyHeader: []
+        '500':
+          description: Internal Server Error.
+
 components:
   schemas:
     Attachment:
@@ -48,7 +64,7 @@ components:
         - url
         - type
       title: Attachment
-    TaskRequest:
+    TaskSubmission:
       properties:
         customer_id:
           type: string
@@ -64,7 +80,7 @@ components:
           title: Task Id
         completed_by:
           type: string
-          title: Completed By
+          title: Completed By Email/Username
         questions:
           items:
             $ref: '#/components/schemas/QuestionAnswer'
@@ -83,7 +99,7 @@ components:
         - ticket_number
         - completed_by
         - questions
-      title: TaskRequest
+      title: TaskSubmission
     HTTPValidationError:
       properties:
         detail:
